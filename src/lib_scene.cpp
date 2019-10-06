@@ -3,7 +3,7 @@
 Scene* create_scene_1() {
 
   Camera* my_camera = new Camera(
-    glm::vec3(0, -15, 15), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0), 45, 65, 50
+    glm::vec3(0, -15, 15), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0), 45, 650, 500
   );
 
   vector<Primitive*> geom_array, additional_geom_array;
@@ -82,7 +82,7 @@ Scene* create_scene_1() {
   material = new Material(
     glm::vec4(0.1, 0.1, 0.1, 1),
     glm::vec4(0, 0, 0, 1),
-    glm::vec4(0.8, 0.8, 0.8, 1),
+    glm::vec4(0.3, 0.3, 0.3, 1),
     glm::vec4(0, 0, 0, 1),
     glm::vec4(0, 0, 0, 1),
     50, plain_texture
@@ -158,7 +158,7 @@ Scene* create_scene_2() {
   std::vector<std::vector<glm::vec4>> wood_texture = read_image("texture/wood.ppm");
 
   Camera* my_camera = new Camera(
-    glm::vec3(0, -13, 5), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0), 45, 50, 50
+    glm::vec3(0, -13, 5), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0), 45, 500, 500
   );
 
   vector<Primitive*> geom_array, additional_geom_array;
