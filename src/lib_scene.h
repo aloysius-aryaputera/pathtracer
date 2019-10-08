@@ -23,5 +23,6 @@ using namespace std;
 
 Scene* create_scene_1();
 Scene* create_scene_2();
+Scene* create_scene_3();
 
 #endif

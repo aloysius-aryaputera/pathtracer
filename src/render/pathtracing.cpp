@@ -48,7 +48,7 @@ glm::vec4 _compute_indirect_diffuse(
       1
     );
 
-    return indirect_lighting;
+    return indirect_lighting * object -> get_mat_diffuse(point_on_surface);
 }
 
 glm::vec4 _compute_direct_lighting(

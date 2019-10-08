@@ -19,7 +19,7 @@ int main() {
 
   auto t0 = Time::now();
 
-  Scene* my_scene = create_scene_1();
+  Scene* my_scene = create_scene_2();
 
   pathtrace_parallel(my_scene, 8, 1, 1024);
 
