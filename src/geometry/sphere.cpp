@@ -51,19 +51,19 @@ Sphere::Sphere() {
 
 void Sphere::_compute_bounding_box() {
   double x_min, x_max, y_min, y_max, z_min, z_max, delta;
-  glm::vec4 point_1, point_2, point_3, point_4, point_5, point_6, point_7, \
+  glm::vec3 point_1, point_2, point_3, point_4, point_5, point_6, point_7, \
     point_8;
   glm::vec3 point_1_trans, point_2_trans, point_3_trans, point_4_trans,
     point_5_trans, point_6_trans, point_7_trans, point_8_trans;
 
-  point_1 = glm::vec4(center.x - r, center.y - r, center.z - r, 1);
-  point_2 = glm::vec4(center.x - r, center.y - r, center.z + r, 1);
-  point_3 = glm::vec4(center.x - r, center.y + r, center.z - r, 1);
-  point_4 = glm::vec4(center.x - r, center.y + r, center.z + r, 1);
-  point_5 = glm::vec4(center.x + r, center.y - r, center.z - r, 1);
-  point_6 = glm::vec4(center.x + r, center.y - r, center.z + r, 1);
-  point_7 = glm::vec4(center.x + r, center.y + r, center.z - r, 1);
-  point_8 = glm::vec4(center.x + r, center.y + r, center.z + r, 1);
+  point_1 = glm::vec3(center.x - r, center.y - r, center.z - r);
+  point_2 = glm::vec3(center.x - r, center.y - r, center.z + r);
+  point_3 = glm::vec3(center.x - r, center.y + r, center.z - r);
+  point_4 = glm::vec3(center.x - r, center.y + r, center.z + r);
+  point_5 = glm::vec3(center.x + r, center.y - r, center.z - r);
+  point_6 = glm::vec3(center.x + r, center.y - r, center.z + r);
+  point_7 = glm::vec3(center.x + r, center.y + r, center.z - r);
+  point_8 = glm::vec3(center.x + r, center.y + r, center.z + r);
 
   point_1_trans = transform_vec3(trans_matrix, point_1);
   point_2_trans = transform_vec3(trans_matrix, point_2);

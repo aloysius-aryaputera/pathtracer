@@ -168,7 +168,7 @@ Scene* create_scene_2() {
   std::vector<std::vector<glm::vec4>> brick_texture = read_image("texture/bricks.ppm");
   std::vector<std::variant<glm::vec3, double, Material*, glm::mat4>> parameter_array;
 
-  trans_matrix = translate(0, -3, 11) * scale(4, 4, 1);
+  trans_matrix = translate(0, -3, 11) * scale(3, 3, 1);
   material = new Material(
     glm::vec4(0.1, 0.1, 0.1, 1), glm::vec4(0.0, 0.0, 0.0, 1),
     glm::vec4(0, 0, 0, 1), glm::vec4(9.0, 8.0, 6.0, 1),

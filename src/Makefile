@@ -4,7 +4,7 @@
 # Variables to control Makefile operation
 
 CXX = g++
-CXXFLAGS = -Wall -g -std=c++17 -fopenmp
+CXXFLAGS = -Wall -g -std=c++17 -fopenmp -Iglm-0.9.7.1/
 
 # ****************************************************
 # Targets needed to bring the executable up to date
@@ -13,7 +13,6 @@ all: main_path_tracing
 
 main_path_tracing: main_path_tracing.o \
 	complex_geometry.o \
-	geometry/primitive.o \
 	geometry/sphere.o \
 	geometry/triangle.o \
 	lib_scene.o \
@@ -33,7 +32,6 @@ main_path_tracing: main_path_tracing.o \
 	$(CXX) $(CXXFLAGS) -o main_path_tracing \
 	main_path_tracing.o \
 	complex_geometry.o \
-	geometry/primitive.o \
 	geometry/sphere.o \
 	geometry/triangle.o \
 	lib_scene.o \
@@ -56,7 +54,7 @@ main_path_tracing.o: main_path_tracing.cpp
 
 complex_geometry.o: complex_geometry.h
 
-geometry/primitive.o: geometry/primitive.h
+#geometry/primitive.o: geometry/primitive.h
 geometry/sphere.o: geometry/sphere.h
 geometry/triangle.o: geometry/triangle.h
 
