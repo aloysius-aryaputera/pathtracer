@@ -219,10 +219,10 @@ Scene* create_scene_2() {
 
   material = new Material(
     glm::vec4(0.1, 0.1, 0.1, 1),
-    glm::vec4(0, 1, 1, 1),
+    glm::vec4(0, 0, 0, 1),
+    glm::vec4(0.3, 0.3, 0.3, 1),
     glm::vec4(0, 0, 0, 1),
     glm::vec4(0, 0, 0, 1),
-    glm::vec4(.25, .5, .5, 1),
     50, plain_texture
   );
   for (unsigned int i = 0; i < 3; i++) {
@@ -279,14 +279,6 @@ Scene* create_scene_2() {
   );
   add_to_geom_array(geom_array, additional_geom_array);
 
-  material = new Material(
-    glm::vec4(0.1, 0.1, 0.1, 1),
-    glm::vec4(0, 0, 0, 1),
-    glm::vec4(0.3, 0.3, 0.3, 1),
-    glm::vec4(0, 0, 0, 1),
-    glm::vec4(0, 0, 0, 1),
-    50, plain_texture
-  );
   trans_matrix = translate(4, -5, 2);
   geom_array.push_back(new Sphere());
   parameter_array = prepare_sphere_parameters(
