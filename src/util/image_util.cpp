@@ -40,7 +40,8 @@ std::vector<std::vector<glm::vec4>> read_image(const char * filename) {
       fscanf(fp, "%c", &g) ;
       fscanf(fp, "%c", &b) ;
       image[floor(i)][floor(j)] = glm::vec4(
-        1.0 * r / max_value, 1.0 * g / max_value, 1.0 * b / max_value, 1);
+        1.0 * r / max_value, 1.0 * g / max_value,
+        1.0 * b / max_value, 1);
     }
   }
 	fclose(fp);

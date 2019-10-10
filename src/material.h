@@ -14,7 +14,7 @@ class Material {
   private:
     std::vector<std::vector<glm::vec4>> texture;
     glm::vec4 ambient, diffuse, specular, emission, albedo;
-    double shininess;
+    double shininess, u_factor, v_factor;
     glm::vec4 _get_point_texture(double u, double v);
 
   public:
@@ -22,7 +22,8 @@ class Material {
     Material(
       glm::vec4 ambient_, glm::vec4 diffuse_, glm::vec4 specular_,
       glm::vec4 emission_, glm::vec4 albedo, double shininess_,
-      std::vector<std::vector<glm::vec4>> texture_
+      std::vector<std::vector<glm::vec4>> texture_={}, double u_factor_=1.0,
+      double v_factor_=1.0
     );
     Material(const Material &original_material);             // copy constructor
     Material & operator=(const Material &original_material); // assignment

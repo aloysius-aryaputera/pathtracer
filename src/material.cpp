@@ -14,7 +14,8 @@ Material::Material() {
 Material::Material(
   glm::vec4 ambient_, glm::vec4 diffuse_, glm::vec4 specular_,
   glm::vec4 emission_, glm::vec4 albedo_, double shininess_,
-  std::vector<std::vector<glm::vec4>> texture_
+  std::vector<std::vector<glm::vec4>> texture_, double u_factor_,
+  double v_factor_
 ) {
   ambient = glm::vec4(ambient_.x, ambient_.y, ambient_.z, ambient_.w);
   diffuse = glm::vec4(diffuse_.x, diffuse_.y, diffuse_.z, diffuse_.w);
@@ -23,6 +24,8 @@ Material::Material(
   albedo = glm::vec4(albedo_.x, albedo_.y, albedo_.z, albedo_.w);
   shininess = shininess_;
   texture = texture_;
+  u_factor = u_factor_;
+  v_factor = v_factor_;
 }
 
 Material::Material(const Material &original_material) {
@@ -74,6 +77,8 @@ glm::vec4 Material::_get_point_texture(double u, double v) {
   if (has_texture()) {
     int height = texture.size();
     int width = texture[0].size();
+    u = (u - (int)(u_factor * u) / u_factor) * u_factor;
+    v = (v - (int)(v_factor * v) / v_factor) * v_factor;
     u = clamp(0, 1, u);
     v = clamp(0, 1, v);
     int ver_idx = floor(u * (height - 1));

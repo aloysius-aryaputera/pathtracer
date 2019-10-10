@@ -221,8 +221,8 @@ std::tuple<bool, glm::vec3, Primitive*> Grid::_find_nearest_intersection(
     ray_id = object_array_[i] -> get_ray_id(tid);
     new_intersection_point = object_array_[i] -> get_ray_intersection_point(
       tid, ray);
+    num_ray_intersection_tests++;
     if (ray_id != ray.id) {
-      num_ray_intersection_tests++;
       object_array_[i] -> set_ray_id(ray, tid);
       intersect_array = object_array_[i] -> find_nearest_intersection(ray);
     } else {
