@@ -23,8 +23,8 @@ void save_image(
 
 std::vector<std::vector<glm::vec4>> read_image(const char * filename) {
   std::vector<std::vector<glm::vec4>> image;
-	int i, j, width, height, max_value;
-  char r, g, b;
+	int i, j, width, height, max_value, r, g, b;
+  char r_char, g_char, b_char;
 	FILE * fp;
 	assert(fp = fopen(filename, "rb")) ;
   fscanf(fp, "%*s") ;
@@ -36,9 +36,21 @@ std::vector<std::vector<glm::vec4>> read_image(const char * filename) {
 	for (i = 0 ; i < height ; i++) {
     image[floor(i)].resize(width);
     for (j = 0 ; j < width ; j++) {
-      fscanf(fp, "%c", &r) ;
-      fscanf(fp, "%c", &g) ;
-      fscanf(fp, "%c", &b) ;
+      fscanf(fp, "%c", &r_char) ;
+      fscanf(fp, "%c", &g_char) ;
+      fscanf(fp, "%c", &b_char) ;
+      r = (int)r_char;
+      g = (int)g_char;
+      b = (int)b_char;
+      if (r < 0) {
+        r = max_value + 1 + r;
+      }
+      if (g < 0) {
+        g = max_value + 1 + g;
+      }
+      if (b < 0) {
+        b = max_value + 1 + b;
+      }
       image[floor(i)][floor(j)] = glm::vec4(
         1.0 * r / max_value, 1.0 * g / max_value,
         1.0 * b / max_value, 1);

@@ -203,7 +203,7 @@ glm::vec4 Triangle::get_mat_diffuse(glm::vec3 point_on_surface) {
       return material -> get_diffuse(point_3_tex.x, point_3_tex.y);
     }
     alpha = _compute_triangle_area(point_on_surface, point_2_trans, point_3_trans) / area;
-    beta = _compute_triangle_area(point_1_trans, point_on_surface, point_2_trans) / area;
+    beta = _compute_triangle_area(point_1_trans, point_on_surface, point_3_trans) / area;
     gamma = 1 - alpha - beta;
     u = alpha * point_1_tex.x + beta * point_2_tex.x + gamma * point_3_tex.x;
     v = alpha * point_1_tex.y + beta * point_2_tex.y + gamma * point_3_tex.y;

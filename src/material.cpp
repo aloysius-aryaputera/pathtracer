@@ -46,6 +46,8 @@ Material::Material(const Material &original_material) {
     original_material.albedo.z, original_material.albedo.w);
   shininess = original_material.shininess;
   texture = original_material.texture;
+  u_factor = original_material.u_factor;
+  v_factor = original_material.v_factor;
 }      // copy constructor
 
 Material & Material::operator=(const Material &original_material) {
@@ -68,6 +70,8 @@ Material & Material::operator=(const Material &original_material) {
       original_material.albedo.z, original_material.albedo.w);
     shininess = original_material.shininess;
     texture = original_material.texture;
+    u_factor = original_material.u_factor;
+    v_factor = original_material.v_factor;
   }
   return *this;
 } // assignment
@@ -77,8 +81,8 @@ glm::vec4 Material::_get_point_texture(double u, double v) {
   if (has_texture()) {
     int height = texture.size();
     int width = texture[0].size();
-    u = (u - (int)(u_factor * u) / u_factor) * u_factor;
-    v = (v - (int)(v_factor * v) / v_factor) * v_factor;
+    u = (u - floor(u_factor * u) / u_factor) * u_factor;
+    v = (v - floor(v_factor * v) / v_factor) * v_factor;
     u = clamp(0, 1, u);
     v = clamp(0, 1, v);
     int ver_idx = floor(u * (height - 1));
