@@ -148,7 +148,7 @@ Scene* create_scene_1() {
 Scene* create_scene_2() {
 
   Camera* my_camera = new Camera(
-    glm::vec3(0, -15, 15), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0), 45, 650, 500
+    glm::vec3(0, -15, 15), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0), 45, 65 * 2, 50 * 2
   );
 
   vector<Primitive*> geom_array, additional_geom_array;
@@ -157,8 +157,6 @@ Scene* create_scene_2() {
   Material* material;
   std::vector<std::vector<glm::vec4>> oak_wood_texture = read_image(
     "texture/oak_wood.ppm");
-  std::vector<std::vector<glm::vec4>> blue_wood_texture = read_image(
-    "texture/blue_wood.ppm");
   std::vector<std::vector<glm::vec4>> silver_wood_texture = read_image(
     "texture/silver_wood.ppm");
   std::vector<std::vector<glm::vec4>> brick_texture = read_image(
@@ -281,11 +279,6 @@ Scene* create_scene_2() {
   );
   add_to_geom_array(geom_array, additional_geom_array);
 
-  // material = new Material(
-  //   glm::vec4(0.1, 0.1, 0.1, 1), glm::vec4(1, 1, 1, 1),
-  //   glm::vec4(0, 0, 0, 1), glm::vec4(0, 0, 0, 1),
-  //   glm::vec4(.5, .5, .5, 1), 50, blue_wood_texture, 3, 3
-  // );
   material = new Material(
     glm::vec4(0.1, 0.1, 0.1, 1),
     glm::vec4(0, 0, 0, 1),
@@ -316,8 +309,10 @@ Scene* create_scene_3() {
     "texture/blue_wood.ppm");
   std::vector<std::vector<glm::vec4>> marble_texture = read_image(
     "texture/marble.ppm");
-  std::vector<std::vector<glm::vec4>> cloth_texture = read_image(
-    "texture/cloth.ppm");
+  std::vector<std::vector<glm::vec4>> green_marble_texture = read_image(
+    "texture/green_marble.ppm");
+  std::vector<std::vector<glm::vec4>> abstract_texture = read_image(
+    "texture/abstract.ppm");
   std::vector<std::vector<glm::vec4>> marble_floor_texture = read_image(
     "texture/marble_floor.ppm");
   std::vector<std::vector<glm::vec4>> white_plaster_texture = read_image(
@@ -331,26 +326,21 @@ Scene* create_scene_3() {
   std::vector<std::variant<glm::vec3, double, Material*, glm::mat4>> parameter_array;
 
   material = new Material(
-    glm::vec4(0.1, 0.1, 0.1, 1), glm::vec4(0.0, 0.0, 0.0, 1),
-    glm::vec4(0, 0, 0, 1), glm::vec4(9.0, 8.0, 6.0, 1),
+    glm::vec4(0.0, 0.0, 0.0, 1), glm::vec4(0.0, 0.0, 0.0, 1),
+    glm::vec4(0, 0, 0, 1), glm::vec4(20.0, 17.0, 15.0, 1),
     glm::vec4(0.0, 0.0, 0.0, 1), 50
   );
-  trans_matrix = translate(0, 0, 8.5) * scale(1.5, 1.5, 1);
+  trans_matrix = translate(0, -3, 8.5) * scale(1.5, 1.5, 1);
   geom_array.push_back(new Sphere());
   parameter_array = prepare_sphere_parameters(
       glm::vec3(0, 0, 0), 2.0, material, trans_matrix
     );
   geom_array[geom_array.size() - 1] -> set_parameters(parameter_array);
 
-  // material = new Material(
-  //   glm::vec4(0.1, 0.1, 0.1, 1), glm::vec4(1, 1, 1, 1),
-  //   glm::vec4(0, 0, 0, 1), glm::vec4(0, 0, 0, 1),
-  //   glm::vec4(0.2, 0.2, 0.2, 1), 50
-  // );
   material = new Material(
-    glm::vec4(0.1, 0.1, 0.1, 1), glm::vec4(1, 1, 1, 1),
+    glm::vec4(0.0, 0.0, 0.0, 1), glm::vec4(1, 1, 1, 1),
     glm::vec4(0, 0, 0, 1), glm::vec4(0, 0, 0, 1),
-    glm::vec4(0.4, 0.4, 0.4, 1), 50, marble_texture, 3, 3
+    glm::vec4(0.4, 0.4, 0.4, 1), 50, green_marble_texture, 3, 3
   );
   trans_matrix = translate(2, -2.5, 1.0);
   geom_array.push_back(new Sphere());
@@ -360,7 +350,7 @@ Scene* create_scene_3() {
   geom_array[geom_array.size() - 1] -> set_parameters(parameter_array);
 
   material = new Material(
-    glm::vec4(0.1, 0.1, 0.1, 1), glm::vec4(1, 1, 1, 1),
+    glm::vec4(0.0, 0.0, 0.0, 1), glm::vec4(1, 1, 1, 1),
     glm::vec4(0, 0, 0, 1), glm::vec4(0, 0, 0, 1),
     glm::vec4(0.4, 0.4, 0.4, 1), 50, marble_texture, 6, 6
   );
@@ -372,7 +362,7 @@ Scene* create_scene_3() {
   geom_array[geom_array.size() - 1] -> set_parameters(parameter_array);
 
   material = new Material(
-    glm::vec4(0.1, 0.1, 0.1, 1),
+    glm::vec4(0.0, 0.0, 0.0, 1),
     glm::vec4(0, 0, 0, 1),
     glm::vec4(0.3, 0.3, 0.3, 1),
     glm::vec4(0, 0, 0, 1),
@@ -387,9 +377,9 @@ Scene* create_scene_3() {
   add_to_geom_array(geom_array, additional_geom_array);
 
   material = new Material(
-    glm::vec4(0.1, 0.1, 0.1, 1), glm::vec4(1, 1, 1, 1),
+    glm::vec4(0.0, 0.0, 0.0, 1), glm::vec4(1, 1, 1, 1),
     glm::vec4(0, 0, 0, 1), glm::vec4(0, 0, 0, 1),
-    glm::vec4(0.2, 0.2, 0.2, 1), 50, cloth_texture, 3, 3
+    glm::vec4(0.2, 0.2, 0.2, 1), 50, abstract_texture, 3, 3
   );
   trans_matrix = translate(-2, -2, .5) * glm::mat4(
     rotate(45, glm::vec3(0, 0, 1))) * scale(2.5, 1.5, 1);
@@ -400,7 +390,7 @@ Scene* create_scene_3() {
   geom_array[geom_array.size() - 1] -> set_parameters(parameter_array);
 
   material = new Material(
-    glm::vec4(0.1, 0.1, 0.1, 1), glm::vec4(1, 1, 1, 1),
+    glm::vec4(0.0, 0.0, 0.0, 1), glm::vec4(1, 1, 1, 1),
     glm::vec4(0, 0, 0, 1), glm::vec4(0, 0, 0, 1),
     glm::vec4(0.3, 0.3, 0.3, 1), 50, blue_wood_texture, 3, 3
   );
@@ -412,7 +402,7 @@ Scene* create_scene_3() {
   add_to_geom_array(geom_array, additional_geom_array);
 
   material = new Material(
-    glm::vec4(0.1, 0.1, 0.1, 1), glm::vec4(1, 1, 1, 1),
+    glm::vec4(0.0, 0.0, 0.0, 1), glm::vec4(1, 1, 1, 1),
     glm::vec4(0, 0, 0, 1), glm::vec4(0, 0, 0, 1),
     glm::vec4(0.4, 0.4, 0.4, 1), 50, marble_floor_texture, 6, 6
   );
@@ -424,7 +414,7 @@ Scene* create_scene_3() {
   add_to_geom_array(geom_array, additional_geom_array);
 
   material = new Material(
-    glm::vec4(0.1, 0.1, 0.1, 1), glm::vec4(1, 1, 1, 1),
+    glm::vec4(0.0, 0.0, 0.0, 1), glm::vec4(1, 1, 1, 1),
     glm::vec4(0, 0, 0, 1), glm::vec4(0, 0, 0, 1),
     glm::vec4(0.4, 0.4, 0.4, 1), 50, white_plaster_texture, 3, 3
   );
@@ -433,10 +423,27 @@ Scene* create_scene_3() {
     glm::vec3(6, -12, 7), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0),
     glm::vec3(1, 1, 0), glm::vec3(1, 0, 0), material, glm::mat4(1)
   );
+
+  material = new Material(
+    glm::vec4(0.0, 0.0, 0.0, 1), glm::vec4(0.0, 0.0, 0.0, 1),
+    glm::vec4(0, 0, 0, 1), glm::vec4(20.0, 17.0, 8.0, 1),
+    glm::vec4(0.0, 0.0, 0.0, 1), 50
+  );
+  additional_geom_array = create_box(
+    glm::vec3(-6.0, -3, 7), 1, 18, .5, material, glm::mat4(1)
+  );
+  add_to_geom_array(geom_array, additional_geom_array);
+  additional_geom_array = create_box(
+    glm::vec3(6.0, -3, 7), 1, 18, .5, material, glm::mat4(1)
+  );
+  add_to_geom_array(geom_array, additional_geom_array);
+  additional_geom_array = create_box(
+    glm::vec3(0, 6.0, 7), 12, 1, .5, material, glm::mat4(1)
+  );
   add_to_geom_array(geom_array, additional_geom_array);
 
   material = new Material(
-    glm::vec4(0.1, 0.1, 0.1, 1), glm::vec4(1, 1, 1, 1),
+    glm::vec4(0.0, 0.0, 0.0, 1), glm::vec4(1, 1, 1, 1),
     glm::vec4(0, 0, 0, 1), glm::vec4(0, 0, 0, 1),
     glm::vec4(0.4, 0.4, 0.4, 1), 50, red_plaster_texture, 3, 3
   );

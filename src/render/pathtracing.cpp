@@ -175,7 +175,7 @@ void pathtrace_parallel(
   int sampling_size
 ) {
 
-  unsigned int i, j;
+  int i, j;
   unsigned int nthreads, tid, chunk = 10;
   std::vector<std::vector<glm::vec4>> image;
 
@@ -196,6 +196,7 @@ void pathtrace_parallel(
     #pragma omp for schedule(dynamic, chunk)
     for (i = 0; i < scene -> camera -> height; i++) {
       for (j = 0; j < scene -> camera -> width; j++) {
+        printf("Processing pixel %d, %d\n", i, j);
         num_primary_rays++;
         Ray camera_ray = scene -> camera -> compute_ray(i + 0.5, j + 0.5);
         std::tuple<bool, glm::vec3, Primitive*> intersection_tuple = \
@@ -211,8 +212,9 @@ void pathtrace_parallel(
         } else {
           image[i][j] = glm::vec4(0, 0, 0, 1);
         }
-        }
+        printf("Finished processing pixel %d, %d\n", i, j);
       }
+    }
   }
 
   save_image(image, scene -> camera -> width, scene -> camera -> height);
