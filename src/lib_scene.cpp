@@ -86,7 +86,7 @@ Scene* create_scene_1() {
     );
   geom_array[geom_array.size() - 1] -> set_parameters(parameter_array);
 
-  for (unsigned int i = 0; i < 3; i++) {
+  for (int i = 0; i < 3; i++) {
     trans_matrix = translate(0, 2, .5) * \
       glm::mat4(rotate(120 * i, glm::vec3(0, 0, 1))) * \
       scale(3, 1.5, 1.0);
@@ -110,7 +110,7 @@ Scene* create_scene_1() {
     glm::vec3(0, 0, 0), 0.5, 0.5, 8, material, trans_matrix
   );
   add_to_geom_array(geom_array, additional_geom_array);
-  for (unsigned int i = 0; i < 10; i++) {
+  for (int i = 0; i < 10; i++) {
     material = new Material(
       glm::vec4(0.1, 0.1, 0.1, 1),
       glm::vec4(0, 0, 0, 0),
@@ -225,7 +225,7 @@ Scene* create_scene_2() {
     glm::vec4(0, 0, 0, 1),
     50
   );
-  for (unsigned int i = 0; i < 3; i++) {
+  for (int i = 0; i < 3; i++) {
     trans_matrix = translate(0, 2, .5) * \
       glm::mat4(rotate(120 * i, glm::vec3(0, 0, 1))) * \
       scale(3, 1.5, 1.0);
@@ -249,7 +249,7 @@ Scene* create_scene_2() {
     glm::vec3(0, 0, 0), 0.5, 0.5, 8, material, trans_matrix
   );
   add_to_geom_array(geom_array, additional_geom_array);
-  for (unsigned int i = 0; i < 10; i++) {
+  for (int i = 0; i < 10; i++) {
     material = new Material(
       glm::vec4(0.1, 0.1, 0.1, 1),
       glm::vec4((double)i / 10, 1 - (double)i / 10, 0, 1),
@@ -302,7 +302,7 @@ Scene* create_scene_2() {
 Scene* create_scene_3() {
 
   Camera* my_camera = new Camera(
-    glm::vec3(0, -13, 5), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0), 45, 600, 600
+    glm::vec3(0, -13, 5), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0), 45, 200, 200
   );
 
   std::vector<std::vector<glm::vec4>> blue_wood_texture = read_image(
@@ -419,26 +419,29 @@ Scene* create_scene_3() {
     glm::vec4(0.4, 0.4, 0.4, 1), 50, white_plaster_texture, 3, 3
   );
   additional_geom_array = create_rectangle(
-    glm::vec3(-6, -12, 7), glm::vec3(-6, 6, 7), glm::vec3(6, 6, 7),
-    glm::vec3(6, -12, 7), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0),
+    glm::vec3(-6, -12, 8), glm::vec3(-6, 6, 8), glm::vec3(6, 6, 8),
+    glm::vec3(6, -12, 8), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0),
     glm::vec3(1, 1, 0), glm::vec3(1, 0, 0), material, glm::mat4(1)
   );
+  add_to_geom_array(geom_array, additional_geom_array);
 
   material = new Material(
     glm::vec4(0.0, 0.0, 0.0, 1), glm::vec4(0.0, 0.0, 0.0, 1),
-    glm::vec4(0, 0, 0, 1), glm::vec4(20.0, 17.0, 8.0, 1),
+    glm::vec4(0, 0, 0, 1), glm::vec4(10.0, 8.0, 4.0, 1),
     glm::vec4(0.0, 0.0, 0.0, 1), 50
   );
   additional_geom_array = create_box(
-    glm::vec3(-6.0, -3, 7), 1, 18, .5, material, glm::mat4(1)
+    glm::vec3(-6.0, -3, 8), 1, 18, .5, material, glm::mat4(1)
   );
   add_to_geom_array(geom_array, additional_geom_array);
+
   additional_geom_array = create_box(
-    glm::vec3(6.0, -3, 7), 1, 18, .5, material, glm::mat4(1)
+    glm::vec3(6.0, -3, 8), 1, 18, .5, material, glm::mat4(1)
   );
   add_to_geom_array(geom_array, additional_geom_array);
+
   additional_geom_array = create_box(
-    glm::vec3(0, 6.0, 7), 12, 1, .5, material, glm::mat4(1)
+    glm::vec3(0, 6.0, 8), 12, 1, .5, material, glm::mat4(1)
   );
   add_to_geom_array(geom_array, additional_geom_array);
 
@@ -455,8 +458,8 @@ Scene* create_scene_3() {
   add_to_geom_array(geom_array, additional_geom_array);
 
   additional_geom_array = create_rectangle(
-    glm::vec3(-6, -12, 0), glm::vec3(-6, 6, 0), glm::vec3(-6, 6, 7),
-    glm::vec3(-6, -12, 7), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0),
+    glm::vec3(-6, -12, 0), glm::vec3(-6, 6, 0), glm::vec3(-6, 6, 8),
+    glm::vec3(-6, -12, 8), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0),
     glm::vec3(1, 1, 0), glm::vec3(1, 0, 0), material, glm::mat4(1)
   );
   add_to_geom_array(geom_array, additional_geom_array);

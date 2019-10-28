@@ -6,8 +6,7 @@ Cell::Cell() {
 
 Cell::Cell(
   double x_min, double x_max, double y_min, double y_max, double z_min,
-  double z_max, unsigned int i_address_, unsigned int j_address_,
-  unsigned int k_address_
+  double z_max, int i_address_, int j_address_, int k_address_
 ) {
   bounding_box = new BoundingBox(x_min, x_max, y_min, y_max, z_min, z_max);
   i_address = i_address_;

@@ -50,20 +50,20 @@ class Primitive {
       return dummy_bounding_box;
     }
 
-    virtual glm::vec3 get_ray_intersection_point(unsigned int tid, Ray ray) {
+    virtual glm::vec3 get_ray_intersection_point(int tid, Ray ray) {
       return glm::vec3(INFINITY, INFINITY, INFINITY);
     }
 
-    virtual int get_ray_id(unsigned int tid) {
+    virtual int get_ray_id(int tid) {
       return 0;
     }
 
     virtual void set_ray_intersection_point(
-      glm::vec3 intersection_point, unsigned int tid) {
+      glm::vec3 intersection_point, int tid) {
 
     }
 
-    virtual void set_ray_id(Ray ray, unsigned int tid) {
+    virtual void set_ray_id(Ray ray, int tid) {
 
     }
 };

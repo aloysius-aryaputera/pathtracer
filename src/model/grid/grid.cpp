@@ -1,7 +1,7 @@
 #include "grid.h"
 
-unsigned int num_ray_intersection_tests = 0;
-unsigned int num_ray_intersections = 0;
+int num_ray_intersection_tests = 0;
+int num_ray_intersections = 0;
 
 Grid::Grid() {
 
@@ -9,8 +9,8 @@ Grid::Grid() {
 
 Grid::Grid(
   double x_min_, double x_max_, double y_min_, double y_max_,
-  double z_min_, double z_max_, unsigned int n_cell_x_, unsigned int n_cell_y_,
-  unsigned int n_cell_z_, std::vector<Primitive*> object_array_
+  double z_min_, double z_max_, int n_cell_x_, int n_cell_y_,
+  int n_cell_z_, std::vector<Primitive*> object_array_
 ) {
   x_min = x_min_;
   x_max = x_max_;
@@ -67,8 +67,8 @@ void Grid::_insert_objects() {
   for (int i = 0 ; i < n_cell_x ; i++) {
     for (int j = 0 ; j < n_cell_y ; j++) {
       for (int k = 0; k < n_cell_z; k++) {
-        unsigned int cell_num_object = 0;
-        for (unsigned int l = 0; l < object_array.size(); l++) {
+        int cell_num_object = 0;
+        for (int l = 0; l < object_array.size(); l++) {
           bool intersecting = \
             cell_array[floor(i)][floor(j)][floor(k)] -> are_intersecting(
               object_array[l] -> get_bounding_box());
@@ -87,9 +87,9 @@ bool Grid::_is_inside(glm::vec3 position) {
   return world_bounding_box.is_inside(position);
 }
 
-std::vector<unsigned int> Grid::find_cell_address(glm::vec3 position) {
-  std::vector<unsigned int> address;
-  unsigned int cell_address_i, cell_address_j, cell_address_k;
+std::vector<int> Grid::find_cell_address(glm::vec3 position) {
+  std::vector<int> address;
+  int cell_address_i, cell_address_j, cell_address_k;
   if (!_is_inside(position)) {
     printf("The position is not inside the grid!");
     throw std::string("The position is not inside the grid!");
@@ -104,11 +104,11 @@ std::vector<unsigned int> Grid::find_cell_address(glm::vec3 position) {
 }
 
 std::tuple<bool, glm::vec3, Primitive*> Grid::do_traversal(
-  Ray ray, double min_distance, bool early_break, unsigned int tid
+  Ray ray, double min_distance, bool early_break, int tid
 ) {
 
   std::vector<Primitive*> relevant_object_array;
-  std::vector<unsigned int> initial_address = find_cell_address(ray.p0);
+  std::vector<int> initial_address = find_cell_address(ray.p0);
   Cell* initial_cell = cell_array[
     initial_address[0]][initial_address[1]][initial_address[2]];
   Cell* current_cell;
@@ -208,7 +208,7 @@ std::tuple<bool, glm::vec3, Primitive*> Grid::do_traversal(
 
 std::tuple<bool, glm::vec3, Primitive*> Grid::_find_nearest_intersection(
   Ray ray, double min_distance, bool early_break,
-  std::vector<Primitive*> object_array_, unsigned int tid
+  std::vector<Primitive*> object_array_, int tid
 ) {
   bool object_found = false;
   double distance;
@@ -216,7 +216,7 @@ std::tuple<bool, glm::vec3, Primitive*> Grid::_find_nearest_intersection(
   Primitive* nearest_object = nullptr;
   int ray_id;
 
-  for (unsigned int i = 0; i < object_array_.size(); i++) {
+  for (int i = 0; i < object_array_.size(); i++) {
     std::vector<glm::vec3> intersect_array;
     ray_id = object_array_[i] -> get_ray_id(tid);
     new_intersection_point = object_array_[i] -> get_ray_intersection_point(

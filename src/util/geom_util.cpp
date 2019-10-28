@@ -12,7 +12,7 @@ void add_to_geom_array(
   std::vector<Primitive*>& main_array,
   std::vector<Primitive*> additional_array
 ) {
-  for (unsigned int i = 0; i < additional_array.size(); i++) {
+  for (int i = 0; i < additional_array.size(); i++) {
     main_array.push_back(additional_array[i]);
   }
 }

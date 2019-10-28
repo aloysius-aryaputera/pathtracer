@@ -1,11 +1,12 @@
 #include "pathtracing.h"
 
-unsigned int num_primary_rays = 0;
+int pixel_done = 0;
+int num_primary_rays = 0;
 
 glm::vec4 _compute_indirect_diffuse(
   glm::vec3 point_on_surface, Primitive* object, Scene* scene,
   int indirect_diffuse_level, int reflection_level,
-  int sampling_size, unsigned int tid
+  int sampling_size, int tid
 ) {
   glm::vec3 normal = object -> get_normal(point_on_surface);
   CartesianSystem new_xyz_system = CartesianSystem(normal);
@@ -13,7 +14,7 @@ glm::vec4 _compute_indirect_diffuse(
   glm::vec3 v3_rand, v3_rand_world;
   glm::vec4 sample_indirect_lighting = glm::vec4(0, 0, 0, 1);
   glm::vec4 indirect_lighting = glm::vec4(0, 0, 0, 1);
-  unsigned int new_sampling_size = 1;
+  int new_sampling_size = 1;
 
   for (int i = 0; i < sampling_size; i++) {
 
@@ -40,21 +41,21 @@ glm::vec4 _compute_indirect_diffuse(
         );
         indirect_lighting += sample_indirect_lighting;
       }
-    }
-    indirect_lighting = glm::vec4(
-      indirect_lighting.x / (double)sampling_size / pdf,
-      indirect_lighting.y / (double)sampling_size / pdf,
-      indirect_lighting.z / (double)sampling_size / pdf,
-      1
-    );
+  }
+  indirect_lighting = glm::vec4(
+    indirect_lighting.x / (double)sampling_size / pdf,
+    indirect_lighting.y / (double)sampling_size / pdf,
+    indirect_lighting.z / (double)sampling_size / pdf,
+    1
+  );
 
-    return indirect_lighting * object -> get_mat_diffuse(point_on_surface);
+  return indirect_lighting * object -> get_mat_diffuse(point_on_surface);
 }
 
 glm::vec4 _compute_direct_lighting(
   glm::vec3 seer_position, glm::vec3 point_on_surface, Light* light,
   Primitive* object, std::vector<Primitive*> object_array, Scene* scene,
-  unsigned int tid
+  int tid
 ) {
   glm::vec3 normal = object -> get_normal(point_on_surface);
   glm::vec3 direction;
@@ -83,7 +84,7 @@ glm::vec4 _compute_direct_lighting(
 glm::vec4 _compute_reflection(
   glm::vec3 seer_position, glm::vec3 point_on_surface, Primitive* object,
   Scene* scene, int indirect_diffuse_level, int reflection_level,
-  int sampling_size, unsigned int tid
+  int sampling_size, int tid
 ) {
   glm::vec3 normal = object -> get_normal(point_on_surface);
   glm::vec3 neg_eye_dir = glm::normalize(seer_position - point_on_surface);
@@ -117,7 +118,7 @@ glm::vec4 _compute_reflection(
 glm::vec4 _find_colour_pathtracing(
   glm::vec3 seer_position, glm::vec3 point_on_surface, Primitive* object,
   Scene* scene, int indirect_diffuse_level,
-  int reflection_level, int sampling_size, unsigned int tid
+  int reflection_level, int sampling_size, int tid
 ) {
 
   glm::vec4 colour = object -> get_material() -> get_ambient() + \
@@ -125,7 +126,7 @@ glm::vec4 _find_colour_pathtracing(
   glm::vec4 direct_lighting = glm::vec4(0, 0, 0, 1);
   glm::vec4 indirect_lighting = glm::vec4(0, 0, 0, 1);
 
-  for (unsigned int i = 0; i < scene -> light_array.size(); i++) {
+  for (int i = 0; i < scene -> light_array.size(); i++) {
     direct_lighting += _compute_direct_lighting(
       seer_position, point_on_surface, scene -> light_array[i], object,
       scene -> object_array, scene, tid
@@ -138,18 +139,6 @@ glm::vec4 _find_colour_pathtracing(
       reflection_level, sampling_size, tid
     );
   }
-
-  // if (indirect_diffuse_level == PATH_TRACING_LEVEL) {
-  //   indirect_lighting = _compute_indirect_diffuse(
-  //     point_on_surface, object, scene, indirect_diffuse_level, SAMPLING_SIZE,
-  //     tid
-  //   );
-  // } else if (indirect_diffuse_level > 0) {
-  //   indirect_lighting = _compute_indirect_diffuse(
-  //     point_on_surface, object, scene, indirect_diffuse_level, 1, tid
-  //   );
-  //     //std::max(int(pow(level, .5)), 1),
-  // }
 
   if (reflection_level > 0 && object -> get_material() -> is_reflective()) {
     colour += _compute_reflection(
@@ -176,7 +165,7 @@ void pathtrace_parallel(
 ) {
 
   int i, j;
-  unsigned int nthreads, tid, chunk = 10;
+  int nthreads, tid, chunk = 10;
   std::vector<std::vector<glm::vec4>> image;
 
   image.resize(scene -> camera -> height);
@@ -194,25 +183,49 @@ void pathtrace_parallel(
     printf("Thread %d starting...\n", tid);
 
     #pragma omp for schedule(dynamic, chunk)
-    for (i = 0; i < scene -> camera -> height; i++) {
-      for (j = 0; j < scene -> camera -> width; j++) {
-        printf("Processing pixel %d, %d\n", i, j);
-        num_primary_rays++;
-        Ray camera_ray = scene -> camera -> compute_ray(i + 0.5, j + 0.5);
-        std::tuple<bool, glm::vec3, Primitive*> intersection_tuple = \
-          scene -> grid -> do_traversal(camera_ray, INFINITY, false, tid);
-        bool intersection_found = std::get<0>(intersection_tuple);
-        if (intersection_found) {
-          Primitive* nearest_object = std::get<2>(intersection_tuple);
-          glm::vec3 point_on_surface = std::get<1>(intersection_tuple);
-          image[i][j] = _find_colour_pathtracing(
-            scene -> camera -> eye, point_on_surface, nearest_object,
-            scene, indirect_diffuse_level, reflection_level, sampling_size,
+    for (j = 0; j < scene -> camera -> width; j++) {
+      for (i = 0; i < scene -> camera -> height; i++) {
+        // if (
+        //   (i == 127 && j == 333) ||
+        //   (i == 159 && j == 360) ||
+        //   (i == 119 && j == 71) ||
+        //   (i == 190 && j == 391) ||
+        //   (i == 172 && j == 309) ||
+        //   (i == 181 && j == 271) ||
+        //   (i == 159 && j == 359) ||
+        //   (i == 127 && j == 332)
+        // ) {
+          // printf("Processing pixel %d, %d\n", i, j);
+          num_primary_rays++;
+          Ray camera_ray = scene -> camera -> compute_ray(i + 0.5, j + 0.5);
+          // printf("2 (%d, %d)\n", i, j);
+          std::tuple<bool, glm::vec3, Primitive*> intersection_tuple = \
+            scene -> grid -> do_traversal(camera_ray, INFINITY, false, tid);
+          // printf("3 (%d, %d)\n", i, j);
+          bool intersection_found = std::get<0>(intersection_tuple);
+          if (intersection_found) {
+            // printf("4a.1 (%d, %d)\n", i, j);
+            Primitive* nearest_object = std::get<2>(intersection_tuple);
+            glm::vec3 point_on_surface = std::get<1>(intersection_tuple);
+            // printf("4a.2 (%d, %d)\n", i, j);
+            image[i][j] = _find_colour_pathtracing(
+              scene -> camera -> eye, point_on_surface, nearest_object,
+              scene, indirect_diffuse_level, reflection_level, sampling_size,
+              tid);
+            // printf("4a.3 (%d, %d)\n", i, j);
+          } else {
+            // printf("4b.1 (%d, %d)\n", i, j);
+            image[i][j] = glm::vec4(0, 0, 0, 1);
+            // printf("4b.2 (%d, %d)\n", i, j);
+          }
+          // printf("Finished processing pixel %d, %d\n", i, j);
+          pixel_done++;
+          printf(
+            "Progress = %5.5f percent (thread ID: %d).\r",
+            100.0 * pixel_done /
+              (scene -> camera -> width * scene -> camera -> height),
             tid);
-        } else {
-          image[i][j] = glm::vec4(0, 0, 0, 1);
-        }
-        printf("Finished processing pixel %d, %d\n", i, j);
+        // }
       }
     }
   }

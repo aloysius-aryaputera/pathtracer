@@ -134,7 +134,7 @@ void Sphere::_set_ray_intersection_parameters() {
   ray_intersection_point_array.resize(10);
 }
 
-glm::vec3 Sphere::get_ray_intersection_point(unsigned int tid, Ray ray) {
+glm::vec3 Sphere::get_ray_intersection_point(int tid, Ray ray) {
   if (ray_id_array[tid] == ray.id) {
     return ray_intersection_point_array[tid];
   } else {
@@ -142,15 +142,15 @@ glm::vec3 Sphere::get_ray_intersection_point(unsigned int tid, Ray ray) {
   }
 }
 
-int Sphere::get_ray_id(unsigned int tid) {
+int Sphere::get_ray_id(int tid) {
   return ray_id_array[tid];
 }
 
-void Sphere::set_ray_intersection_point(glm::vec3 intersection_point, unsigned int tid) {
+void Sphere::set_ray_intersection_point(glm::vec3 intersection_point, int tid) {
   ray_intersection_point_array[tid] = intersection_point;
 }
 
-void Sphere::set_ray_id(Ray ray, unsigned int tid) {
+void Sphere::set_ray_id(Ray ray, int tid) {
   ray_id_array[tid] = ray.id;
   ray_intersection_point_array[tid] = glm::vec3(INFINITY, INFINITY, INFINITY);
 }

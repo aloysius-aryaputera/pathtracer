@@ -20,7 +20,7 @@ class Camera {
 
     Ray compute_ray(double i, double j);
     glm::vec3 eye, center, up, u, v, w;
-    unsigned int width, height;
+    int width, height;
     double fovy, fovx;
 };
 

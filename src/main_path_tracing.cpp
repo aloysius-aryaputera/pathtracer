@@ -21,7 +21,7 @@ int main() {
 
   Scene* my_scene = create_scene_3();
 
-  pathtrace_parallel(my_scene, 8, 2, 2048);
+  pathtrace_parallel(my_scene, 8, 2, 128);
 
   auto t1 = Time::now();
   fsec fs = t1 - t0;

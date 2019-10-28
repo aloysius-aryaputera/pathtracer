@@ -23,9 +23,9 @@ void Scene::_compute_derived_parameters() {
 }
 
 void Scene::_compute_grid_resolutions() {
-  n_cell_x = (unsigned int)(d_x * pow(LAMBDA * num_object / volume, 1 / 3));
-  n_cell_y = (unsigned int)(d_y * pow(LAMBDA * num_object / volume, 1 / 3));
-  n_cell_z = (unsigned int)(d_z * pow(LAMBDA * num_object / volume, 1 / 3));
+  n_cell_x = (int)(d_x * pow(LAMBDA * num_object / volume, 1.0 / 3));
+  n_cell_y = (int)(d_y * pow(LAMBDA * num_object / volume, 1.0 / 3));
+  n_cell_z = (int)(d_z * pow(LAMBDA * num_object / volume, 1.0 / 3));
 }
 
 void Scene::_compute_scene_boundaries() {
@@ -35,7 +35,7 @@ void Scene::_compute_scene_boundaries() {
   y_max = camera -> eye.y;
   z_min = camera -> eye.z;
   z_max = camera -> eye.z;
-  for (unsigned int i = 0; i < num_object; i++) {
+  for (int i = 0; i < num_object; i++) {
     x_min = std::min(x_min, object_array[i] -> get_bounding_box() -> x_min);
     x_max = std::max(x_max, object_array[i] -> get_bounding_box() -> x_max);
     y_min = std::min(y_min, object_array[i] -> get_bounding_box() -> y_min);
@@ -43,7 +43,7 @@ void Scene::_compute_scene_boundaries() {
     z_min = std::min(z_min, object_array[i] -> get_bounding_box() -> z_min);
     z_max = std::max(z_max, object_array[i] -> get_bounding_box() -> z_max);
   }
-  for (unsigned int i = 0; i < num_light; i++) {
+  for (int i = 0; i < num_light; i++) {
     if (light_array[i] -> position.w > 0) {
       x_min = std::min(x_min, (double)light_array[i] -> position.x);
       x_max = std::max(x_max, (double)light_array[i] -> position.x);
@@ -53,6 +53,14 @@ void Scene::_compute_scene_boundaries() {
       z_max = std::max(z_max, (double)light_array[i] -> position.z);
     }
   }
+
+  x_min -= 1;
+  x_max += 1;
+  y_min -= 1;
+  y_max += 1;
+  z_min -= 1;
+  z_max += 1;
+
   d_x = x_max - x_min;
   d_y = y_max - y_min;
   d_z = z_max - z_min;

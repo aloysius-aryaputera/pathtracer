@@ -29,7 +29,7 @@ class Scene {
     Camera* camera;
     std::vector<Primitive*> object_array;
     std::vector<Light*> light_array;
-    unsigned int num_object, num_light, n_cell_x, n_cell_y, n_cell_z;
+    int num_object, num_light, n_cell_x, n_cell_y, n_cell_z;
     Grid* grid;
 
 };

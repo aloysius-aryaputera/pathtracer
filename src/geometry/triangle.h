@@ -44,10 +44,10 @@ class Triangle: public Primitive {
     Material* get_material();
     glm::vec4 get_mat_diffuse(glm::vec3 point_on_surface);
     BoundingBox* get_bounding_box();
-    glm::vec3 get_ray_intersection_point(unsigned int tid, Ray ray);
-    void set_ray_intersection_point(glm::vec3 intersection_point, unsigned int tid);
-    void set_ray_id(Ray ray, unsigned int tid);
-    int get_ray_id(unsigned int tid);
+    glm::vec3 get_ray_intersection_point(int tid, Ray ray);
+    void set_ray_intersection_point(glm::vec3 intersection_point, int tid);
+    void set_ray_id(Ray ray, int tid);
+    int get_ray_id(int tid);
 
 };
 
