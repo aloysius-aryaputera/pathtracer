@@ -1,4 +1,4 @@
-# pathtracer
+# CPU Pathtracer
 
 ![](images/image_1.jpg)
 

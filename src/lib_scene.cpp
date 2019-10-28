@@ -302,7 +302,7 @@ Scene* create_scene_2() {
 Scene* create_scene_3() {
 
   Camera* my_camera = new Camera(
-    glm::vec3(0, -13, 5), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0), 45, 200, 200
+    glm::vec3(0, -13, 5), glm::vec3(0, 0, 3), glm::vec3(0, 1, 0), 45, 600, 600
   );
 
   std::vector<std::vector<glm::vec4>> blue_wood_texture = read_image(
