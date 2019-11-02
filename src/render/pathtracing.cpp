@@ -220,11 +220,13 @@ void pathtrace_parallel(
           }
           // printf("Finished processing pixel %d, %d\n", i, j);
           pixel_done++;
-          printf(
-            "Progress = %5.5f percent (thread ID: %d).\r",
-            100.0 * pixel_done /
-              (scene -> camera -> width * scene -> camera -> height),
-            tid);
+          if (tid == 0) {
+            printf(
+              "Progress = %5.5f percent (thread ID: %d).\r",
+              100.0 * pixel_done /
+                (scene -> camera -> width * scene -> camera -> height),
+              tid);
+          }
         // }
       }
     }
